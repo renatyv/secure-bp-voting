@@ -6,7 +6,7 @@
   <script>
       function handle_error(error) {
           document.getElementById('response').style.display = 'block';
-          document.getElementById('status').innerText = 'ERROR';
+          document.getElementById('status').innerText = 'ОШИБКА';
           document.getElementById('result').innerText = error.message;
       }
 
@@ -24,7 +24,7 @@
               }).pushTransaction(raw_transaction).then(
                   function(result){
                       document.getElementById('response').style.display = 'block';
-                      document.getElementById('status').innerText = 'SUCCESS';
+                      document.getElementById('status').innerText = 'УСПЕХ';
                       document.getElementById('result').innerText = JSON.stringify(result, null, "    ");
                   },
                   handle_error
