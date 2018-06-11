@@ -9,7 +9,32 @@
             document.getElementById('load_info_status').innerText = error.message;
         }
 
+        function createNode(element) {
+            return document.createElement(element);
+        }
+
+        function append(parent, el) {
+            return parent.appendChild(el);
+        }
+
+        let producers = [];
+        function handleProducerClick(cb) {
+            var index = producers.indexOf(cb.value);
+            if (index !== -1) producers.splice(index, 1);
+            if (cb.checked) {
+                if (producers.length >= 21) {
+                    alert("Невозможно выбрать больше 21");
+                    cb.checked = false;
+                    return;
+                }
+                producers.push(cb.value);
+            }
+            document.getElementById('producers_list').value = producers.join(",");
+        }
+
         function load() {
+            producers = [];
+
             let api_endpoint = document.getElementById('api_endpoint').value;
 
             api_endpoint = api_endpoint.replace(/\/$/, ""); //remove trailing slash
@@ -27,7 +52,54 @@
                         document.getElementById('block_num').value = result.block_num;
                         document.getElementById('ref_block_prefix').value = result.ref_block_prefix;
                     }
-                )
+                );
+
+                eos.getProducers({json: true, code: "eosio", scope: "eosio", table: "producers", table_key: "", limit: 500}).then(
+                    function(result){
+                        const table = document.getElementById('producers');
+
+                        while (table.firstChild) {
+                            table.removeChild(table.firstChild);
+                        }
+
+                        let totalVotes = Number(result.total_producer_vote_weight);
+
+                        let i = 0;
+                        result.rows.map(function (p) {
+                            if (!p.is_active) return;
+
+                            i++;
+                            let tr = createNode('tr'),
+                                tdNum = createNode('td'),
+                                tdName = createNode('td'),
+                                tdUrl = createNode('td'),
+                                tdVotesPercent = createNode('td'),
+                                tdVotes = createNode('td'),
+                                tdVote = createNode('td');
+
+                            let votes = Math.floor(Number(p.total_votes)/1000000000);
+                            let votesPercent = (100.0/totalVotes*p.total_votes).toFixed(4);
+
+                            tdNum.innerHTML = `${i}`;
+                            tdName.innerHTML = `${p.owner}`;
+                            tdUrl.innerHTML = `<a href="${p.url}">${p.url}</a>`;
+                            tdVotesPercent.innerHTML = `${votesPercent}%`;
+                            tdVotes.innerHTML = `${votes}`;
+                            tdVote.innerHTML = `<input id="vote_${i.owner}" type="checkbox" value="${p.owner}"
+                                onclick="handleProducerClick(this);">`;
+
+                            append(tr, tdNum);
+                            append(tr, tdName);
+                            append(tr, tdUrl);
+                            append(tr, tdVotesPercent);
+                            append(tr, tdVotes);
+                            append(tr, tdVote);
+                            append(table, tr);
+                        });
+                    }
+                );
+
+
             }, handle_error);
         }
 
@@ -75,6 +147,25 @@
         <p>Copy or write down <var>chain_id</var>, <var>block_num</var> and <var>ref_block_prefix</var>. You will need those in the subsequent step to generate a valid transaction while being off-line.</p>
         <p>Next, go to <a href="2_generate_transaction.html" target="_blank">Step 2</a> to generate a voting transaction.</p>
         <p>Or, go to <a href="2_generate_proxy_transaction.html" target="_blank">Step 2</a> to generate a set proxy transaction.</p>
+
+        <label for="producers_list">Producers List</label>
+        <input type="text" name="producers_list" id="producers_list" value="" style="width: 800px"><br>
+
+        <p>Список продьюсеров:</p>
+        <table style="max-width: 800px; overflow-x:auto;">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>URL</th>
+                <th>Votes %</th>
+                <th>Votes</th>
+                <th>Vote</th>
+            </tr>
+            </thead>
+            <tbody id=producers>
+            </tbody>
+        </table>
     </div>
 
 </body>
