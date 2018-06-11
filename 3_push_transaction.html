@@ -6,7 +6,7 @@
   <script>
       function handle_error(error) {
           document.getElementById('response').style.display = 'block';
-          document.getElementById('status').innerText = 'ERROR';
+          document.getElementById('status').innerText = 'ОШИБКА';
           document.getElementById('result').innerText = error.message;
       }
 
@@ -24,7 +24,7 @@
               }).pushTransaction(raw_transaction).then(
                   function(result){
                       document.getElementById('response').style.display = 'block';
-                      document.getElementById('status').innerText = 'SUCCESS';
+                      document.getElementById('status').innerText = 'УСПЕХ';
                       document.getElementById('result').innerText = JSON.stringify(result, null, "    ");
                   },
                   handle_error
@@ -49,14 +49,14 @@
 </head>
 <body>
 
-    <h1>Step 3: Send the generated transaction</h1>
+    <h1>Этап 3: Публикация транзакции в сеть (Онлайн)</h1>
 
-    <p>This is the final step and it needs to be done on-line.</p>
-    <p>The goal is to push to the network the <var>raw transaction</var> which was generated in the previous step.</p>
-    <p>It's safe to be done on-line, as this transaction does NOT contain your private key.</p>
+    <p>Это заключительный этап, его необходимо выполнить в режиме онлайн.</p>
+    <p>Целью данного этапа является отправка в сеть <var>необработанной транзакции</var> , сгенерированной на предыдущем этапе.</p>
+    <p>Это безопасно делать онлайн поскольку данная транзакция НЕ СОДЕРЖИТ ваш приватный ключ.</p>
 
     <form action="javascript:send()">
-        <label for="api_endpoint">API Endpoint</label>
+        <label for="api_endpoint">API сервер</label>
         <input type="url" name="api_endpoint" id="api_endpoint" value="" list="defaultURLs" style="width: 300px;" required>
 
         <datalist id="defaultURLs">
@@ -66,15 +66,15 @@
         </datalist>
         <br>
 
-        <label for="api_endpoint"><var>Raw transaction</var></label><br>
+        <label for="api_endpoint"><var>Необработанная транзакция</var></label><br>
         <textarea id="raw_transaction" style="width: 1000px; height: 400px; font-size: 0.7em" required></textarea><br/>
-        <input type="submit" value="Send transaction to the network">
+        <input type="submit" value="Отправить транзакцию в сеть">
     </form>
 
     <div id="response" style="display: none">
         Status: <span id="status"></span><br>
 
-        <label for="result">Response:</label><br>
+        <label for="result">Ответ:</label><br>
 
         <div style="width: 1000px; overflow: auto;">
             <code>
