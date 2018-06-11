@@ -53,10 +53,10 @@
 
     <p>Это заключительный этап, его необходимо выполнить в режиме онлайн.</p>
     <p>Целью данного этапа является отправка в сеть <var>необработанной транзакции</var> , сгенерированной на предыдущем этапе.</p>
-    <p>Это безопасно делать онлайн поскольку данная транзакция НЕ СОДЕРЖИТ ваш приватный ключ..</p>
+    <p>Это безопасно делать онлайн поскольку данная транзакция НЕ СОДЕРЖИТ ваш приватный ключ.</p>
 
     <form action="javascript:send()">
-        <label for="api_endpoint">API Endpoint</label>
+        <label for="api_endpoint">API сервер</label>
         <input type="url" name="api_endpoint" id="api_endpoint" value="" list="defaultURLs" style="width: 300px;" required>
 
         <datalist id="defaultURLs">
@@ -66,9 +66,9 @@
         </datalist>
         <br>
 
-        <label for="api_endpoint"><var>Raw transaction</var></label><br>
+        <label for="api_endpoint"><var>Н</var></label><br>
         <textarea id="raw_transaction" style="width: 1000px; height: 400px; font-size: 0.7em" required></textarea><br/>
-        <input type="submit" value="Send transaction to the network">
+        <input type="submit" value="Отправить транзакцию в сеть">
     </form>
 
     <div id="response" style="display: none">
