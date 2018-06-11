@@ -1,8 +1,8 @@
 <html>
 <head>
     <meta charset="utf-8">
-
-    <script src="https://github.com/EOSIO/eosjs/releases/download/v14.1.1/eos.js" integrity="sha256-FSTgn2i5iS3geonhD7AZb58QJuQ4YiWXBnM8BbEmejg="></script>
+    <!-- https://github.com/EOSIO/eosjs/releases/tag/v14.1.1 -->
+    <script src="eos.js"></script>
 
     <script>
         function handle_error(error) {
@@ -51,9 +51,9 @@
         <input type="url" name="api_endpoint" id="api_endpoint" value="" list="defaultURLs" style="width: 300px;" required>
 
         <datalist id="defaultURLs">
+            <option value="https://api-eos.blckchnd.com/" label="chain_id:aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906">
             <option value="https://api.tokenika.io/" label="chain_id:aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906">
             <option value="https://api1.eosasia.one/" label="chain_id:aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906">
-            <option value="https://api-eos.blckchnd.com/" label="chain_id:aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906">
         </datalist>
         <input type="submit" value="Load">
     </form>
@@ -73,7 +73,8 @@
         <input type="text" name="ref_block_prefix" id="ref_block_prefix" value=""><br>
 
         <p>Copy or write down <var>chain_id</var>, <var>block_num</var> and <var>ref_block_prefix</var>. You will need those in the subsequent step to generate a valid transaction while being off-line.</p>
-        <p>Next, go to <a href="2_generate_transaction.html" target="_blank">Step 2</a> to generate a transaction.</p>
+        <p>Next, go to <a href="2_generate_transaction.html" target="_blank">Step 2</a> to generate a voting transaction.</p>
+        <p>Next, go to <a href="2_generate_proxy_transaction.html" target="_blank">Step 2</a> to generate a set proxy transaction.</p>
     </div>
 
 </body>
