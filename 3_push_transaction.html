@@ -1,12 +1,12 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <script src="https://github.com/EOSIO/eosjs/releases/download/v14.1.1/eos.js" integrity="sha256-FSTgn2i5iS3geonhD7AZb58QJuQ4YiWXBnM8BbEmejg="></script>
+  <script src="eos.js"></script>
 
   <script>
       function handle_error(error) {
           document.getElementById('response').style.display = 'block';
-          document.getElementById('status').innerText = 'ERROR';
+          document.getElementById('status').innerText = 'ОШИБКА';
           document.getElementById('result').innerText = error.message;
       }
 
@@ -24,7 +24,7 @@
               }).pushTransaction(raw_transaction).then(
                   function(result){
                       document.getElementById('response').style.display = 'block';
-                      document.getElementById('status').innerText = 'SUCCESS';
+                      document.getElementById('status').innerText = 'УСПЕХ';
                       document.getElementById('result').innerText = JSON.stringify(result, null, "    ");
                   },
                   handle_error
@@ -42,39 +42,152 @@
       });
   </script>
   <style>
+    html {
+      font-size: 10px;
+    }
+    
+    body {
+      margin: 0;
+      padding-bottom: 5rem;
+      display: flex;
+      align-items: center;
+      color: #e6f2ee;
+      font-size: 1.4rem;
+      font-family: Avenir, PT Sans, monospace;
+      background-image: linear-gradient(165deg, #101517 55%, #350816);
+    }
+    
+    .container {
+      margin: auto;
+      display: flex;
+      -webkit-flex-direction: column;
+      -moz-flex-direction: column;
+      -ms-flex-direction: column;
+      -o-flex-direction: column;
+      flex-direction: column;
+      max-width: 1170px;
+    }
+    
+    .heading {
+      position: relative;
+      display: block;
+      width: 100%;
+      padding: 0;
+      margin-bottom: 2rem;
+      color: #e6f2ee;
+      font-size: 3.4rem;
+      line-height: 1.5;
+      font-family: 'Avenir', monospace;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    
+    .heading:after {
+      position: absolute;
+      bottom: 0;
+      content: '';
+      display: block;
+      height: 2px;
+      width: 8rem;
+      background-color: #7f0e32;
+      border-radius: 0 0 100% 100%;
+    }
+    
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 5rem;
+      min-width: 160px;
+      width: auto;
+      margin: 3rem 0;
+      padding: 0 3rem;
+      font-size: 2.4rem;
+      transition: 0.3s all;
+      background-color: #7f0e32;
+      border: none;
+      color: #e6f2ee;
+    }
+    .btn:hover {
+      cursor: pointer;
+      background-color: #7f0e32;
+      box-shadow: inset 0 0 15px rgba(189, 219, 219, 0.4), 0 0 5px rgba(127, 14, 50, 0.74), 0 0 10px rgba(127, 14, 50, 0.74);
+    }
+    
+    li,
+    input {
+      margin: 5px 0;
+    }
+    
+    label{
+      width: 20%;
+      text-align: right;
+      margin-right: 3rem;
+      font-weight: bold;
+      font-size: 1.8rem;
+    }
+    
     input, textarea {
-      margin-bottom: 10px;
+      flex: 1;
+      height: 3.5rem;
+      border-radius: 0.4rem;
+      padding: 0 1rem;
+    }
+    
+    input[type=number] {
+      text-align: right;
+    }
+    
+    textarea{
+      width: 100%;
+      margin: 1rem 0;
+      min-height: 300px;
+    }
+    
+    form div{
+      display: -webkit-flex;
+      display: -moz-flex;
+      display: -ms-flex;
+      display: -o-flex;
+      display: flex;
+      -ms-align-items: center;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    form div span{
+      margin-left: 3rem; 
     }
   </style>
 </head>
 <body>
 
-    <h1>Step 3: Send the generated transaction</h1>
+   <div class="container">
+    <h1 class="heading">Этап 3: Публикация транзакции в сеть (Онлайн)</h1>
 
-    <p>This is the final step and it needs to be done on-line.</p>
-    <p>The goal is to push to the network the <var>raw transaction</var> which was generated in the previous step.</p>
-    <p>It's safe to be done on-line, as this transaction does NOT contain your private key.</p>
+    <p>Это заключительный этап, его необходимо выполнить в режиме онлайн.</p>
+    <p>Целью данного этапа является отправка в сеть <var>необработанной транзакции</var> , сгенерированной на предыдущем этапе.</p>
+    <p>Это безопасно делать онлайн поскольку данная транзакция НЕ СОДЕРЖИТ ваш приватный ключ.</p>
 
     <form action="javascript:send()">
-        <label for="api_endpoint">API Endpoint</label>
+        <label for="api_endpoint">API сервер</label>
         <input type="url" name="api_endpoint" id="api_endpoint" value="" list="defaultURLs" style="width: 300px;" required>
 
         <datalist id="defaultURLs">
+            <option value="https://api-eos.blckchnd.com/" label="chain_id:aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906">
             <option value="https://api.tokenika.io/" label="chain_id:aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906">
             <option value="https://api1.eosasia.one/" label="chain_id:aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906">
-            <option value="https://api-eos.blckchnd.com/" label="chain_id:aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906">
         </datalist>
         <br>
 
-        <label for="api_endpoint"><var>Raw transaction</var></label><br>
-        <textarea id="raw_transaction" style="width: 1000px; height: 400px; font-size: 0.7em" required></textarea><br/>
-        <input type="submit" value="Send transaction to the network">
+        <label for="api_endpoint"><var>Необработанная транзакция</var></label><br>
+        <textarea id="raw_transaction" required></textarea><br/>
+        <input type="submit" value="Отправить транзакцию в сеть" class="btn">
     </form>
 
     <div id="response" style="display: none">
         Status: <span id="status"></span><br>
 
-        <label for="result">Response:</label><br>
+        <label for="result">Ответ:</label><br>
 
         <div style="width: 1000px; overflow: auto;">
             <code>
@@ -82,6 +195,6 @@
             </code>
         </div>
     </div>
-
+</div>
 </body>
 </html>
