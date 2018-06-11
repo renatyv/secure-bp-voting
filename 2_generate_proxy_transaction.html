@@ -70,28 +70,28 @@
 </head>
 <body>
 
-    <h1>Step 2: Generate your set proxy transaction while being OFF-LINE</h1>
+    <h1>Этап 2: Создание ОФФЛАЙН транзациии</h1>
 
-    <p>First of all, save this website to your local machine (right click, <var>Save as…</var>). This can be done in two ways:</p>
+    <p>Для начала, сохраните этот вебсайт на свой компьютер (правый клик, <var>Сохранить как…</var>). Это можно сделать двумя путями:</p>
     <ul>
-        <li>MAXIMUM SECURITY: Copy the file to a secure, off-line computer, which has never been connected to the internet - this gives you best protection. In this case, you should use a pen drive or an external hard drive to port the file to the off-line machine.</li>
-        <li>LESS SECURE, STILL BETTER THAN ON-LINE: If an off-line, air-gapped computer is not available, disconnect your machine from the internet (switch off wi-fi, network or whatever you're using). This is less secure, as it won't protect you from malware or key loggers that you may already have, but is still way more secure than doing this on-line.</li>
+        <li>МАКСИМАЛЬНАЯ БЕЗОПАСНОСТЬ: Скопируйте файл на безопасный оффлайн компьютер, который никогда не подключался к интернету - это дает наилучшую защиту. В таком случае вам понадобится использовать USB диск, или внешний диск для переноса файла на этот оффлайн компьютер.</li>
+        <li>МЕНЕЕ БЕЗОПАСНЫЙ СПОСОБ, НО ЛУЧШЕ ЧЕМ ОН ЛАЙН: Если у вас нет доступа к физически отключенному оффлайн компьютеру, то отключите свой компьютер от интернета (выключите свой wi-fi, сеть, или что вы используйте). Это менее безопасно, поскольку это не защитит вас от уже имеющихся на вашем компьютере малвари или кей логгеров, но это все же более безопасно чем делать это онлайн.</li>
     </ul>
-    <p>While being <b>OFF-LINE</b> do the following:</p>
+    <p>Пока вы <b>ОФФЛАЙН</b> проделайте следующее:</p>
     <ol>
-        <li>Open the saved <var>2_generate_proxy_transaction.html</var> file in your browser. Your private key is at no point exposed to on-line connections, which greatly reduces the risk of getting hacked.</li>
-        <li>Fill in all fields. Triple check everything! For <var>chain_id</var>, <var>block_num</var> and <var>ref_block_prefix</var> use the data fetched in the previous step.</li>
-        <li>Copy or write down the generated transaction, as you'll need it in the subsequent step. Please note that your private key is used to sign transaction, but it's NOT part of the transaction.</li>
+        <li>Откройте сохраненный файл <var>2_generate_transaction.html</var> в вашем браузере. Ваш приватный ключ в таком случае никогда не взаимодействует с онлайн соединениями, что сильно уменьшает риски подвергнуться хакерской аттаке (или быть взломанным, оставьте один вариант.</li>
+        <li>Заполните все поля. Трижды проверьте все! В качестве <var>chain_id</var>, <var>block_num</var> и <var>ref_block_prefix</var> используйте данные полученные на предыдущем шаге.</li>
+        <li>Скопируйте или запишите созданную транзакцию, поскольку она понадобится вам на следующем шаге. Помните, что ваш приватный ключ используется для подписи транзакции, но НЕ ЯВЛЯЕТСЯ её частью.</li>
     </ol>
     <hr>
     <form action="javascript:generate_transaction()">
 
-        <label for="account_name">Your Account Name</label>
+        <label for="account_name">Имя Вашего Аккаунта</label>
         <input type="text" name="account_name" id="account_name" value="" required><br/>
 
 
-        <label for="private_key">Private Key</label>
-        <input type="password" name="private_key" id="private_key" value="" style="width: 700px;" autocomplete="off" required><br>
+        <label for="private_key">Приватный ключ</label>
+        <input type="text" name="private_key" id="private_key" value="" style="width: 700px;" autocomplete="off" required><br>
 
         <label for="chainId"><var>chainId</var></label>
         <input type="text" name="chainId" id="chainId" value="" required style="width: 500px"><br>
@@ -102,21 +102,21 @@
         <label for="ref_block_prefix"><var>ref_block_prefix</var></label>
         <input type="text" name="ref_block_prefix" id="ref_block_prefix" value="" autocomplete="off" required><br>
 
-        <label for="minutes_before_expiration">Transaction will expire in</label>
+        <label for="minutes_before_expiration">Транзакция протухнет через</label>
         <input type="number" min="1" max="60" step="1" name="minutes_before_expiration" id="minutes_before_expiration" value="10" required> minutes<br>
 
-        <label for="proxy">Proxy</label>
-        <input type="text" name="proxy" id="proxy" value="" style="width: 700px;" placeholder="proxy account name" required><br>
+        <label for="proxy">Имя Прокси Аккаунта</label>
+        <input type="text" name="proxy" id="proxy" value="" style="width: 700px;" placeholder="proxy account" required><br>
 
-        <input type="submit" value="Generate transaction">
+        <input type="submit" value="Создать транзакцию">
     </form>
 
     <div id="transaction" style="display: none">
-        <div>Generated and signed <var>raw transaction</var>:</div>
+        <div>Созданная и подписанная <var>raw transaction</var>:</div>
         <textarea id="raw_transaction" style="width: 1000px; height: 400px; font-size: 0.7em;"></textarea>
 
-        <p>Copy or write down the above <var>raw transaction</var> (whitespaces don't matter).</p>
-        <p>Next, go to <a href="3_push_transaction.html" target="_blank">Step 3</a>, to push this transaction to the network.</p>
+        <p>Скопируйте или запишите приведенную выше <var>raw transaction</var> (пробелы не важны).</p>
+        <p>Далее, проследуйте на <a href="3_push_transaction.html" target="_blank">Шаг 3</a>, и отправьте эту транзакцию в сеть.</p>
     </div>
 
 </body>
