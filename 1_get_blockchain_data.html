@@ -109,33 +109,6 @@
                 document.getElementById('api_endpoint').title = 'Since this website is hosted via HTTPS, endpoint API needs to support HTTPS protocol. You can read more about this here: https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content';
             }
         });
-
-        function export_data() {
-            return "chain_id: " + document.getElementById('chain_id').value + "\n" +
-                    "block_num: " + document.getElementById('block_num').value + "\n" +
-                    "ref_block_prefix: " + document.getElementById('ref_block_prefix').value + "\n" +
-                    "producers_list: " + document.getElementById('producers_list').value + "\n";
-        }
-
-        function download_file(name, contents, mime_type) {
-            mime_type = mime_type || "text/plain";
-
-            var blob = new Blob([contents], {type: mime_type});
-
-            var dlink = document.createElement('a');
-            dlink.download = name;
-            dlink.href = window.URL.createObjectURL(blob);
-            dlink.onclick = function(e) {
-                // revokeObjectURL needs a delay to work properly
-                var that = this;
-                setTimeout(function() {
-                    window.URL.revokeObjectURL(that.href);
-                }, 1500);
-            };
-
-            dlink.click();
-            dlink.remove();
-        }
     </script>
 </head>
 <body>
@@ -171,16 +144,14 @@
         <label for="ref_block_prefix">ref_block_prefix</label>
         <input type="text" name="ref_block_prefix" id="ref_block_prefix" value=""><br>
 
-        <p>Copy or write down <var>chain_id</var>, <var>block_num</var> and <var>ref_block_prefix</var>. You will need those in the subsequent step to generate a valid transaction while being off-line.</p>
+        <p>Скопируйте или запишите <var>chain_id</var>, <var>block_num</var> и <var>ref_block_prefix</var>. Это понадобиться вам на следующем этапе для генерации корректной транзакции в режиме Офлайн .</p>
         <p>Next, go to <a href="2_generate_transaction.html" target="_blank">Step 2</a> to generate a voting transaction.</p>
         <p>Or, go to <a href="2_generate_proxy_transaction.html" target="_blank">Step 2</a> to generate a set proxy transaction.</p>
 
         <label for="producers_list">Producers List</label>
         <input type="text" name="producers_list" id="producers_list" value="" style="width: 800px"><br>
 
-        <p><button onclick='download_file("eos_blockchain_data.txt", export_data())'>Download Data as file</button></p>
-
-        <p>Список продьюсеров:</p>
+        <p>Список блок продьюсеров:</p>
         <table style="max-width: 800px; overflow-x:auto;">
             <thead>
             <tr>
