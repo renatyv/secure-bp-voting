@@ -25,7 +25,7 @@ The process of off-line voting is divided into three simple steps, each of them 
 
 ## Text manual
 
-[](https://golos.io/eos/@on0tole/eos-zapushen-chto-dalshe)
+[On russian](https://golos.io/eos/@on0tole/eos-zapushen-chto-dalshe)
 
 ## About
 
