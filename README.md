@@ -1,4 +1,4 @@
-# Secure EOS Block Producer Voting
+# EOS BLCKCHND VOTE OFFLINE
 
 ## Rationale
 
@@ -13,23 +13,25 @@ The main idea is to generate a voting transaction while being completely off-lin
 
 ## Three steps
 
-The process of off-line voting is divided into three simple steps, each of them in the form of an HTML page served from the `tokenika.github.io` domain:
+The process of off-line voting is divided into three simple steps, each of them in the form of an HTML page served from the `https://eos.blckchnd.com` domain:
 
-1. ON-LINE: [Fetch information about the network](https://tokenika.github.io/secure-bp-voting/1_get_blockchain_data.html)
-2. **OFF-LINE**: [Generate and sign transaction with your private key](https://tokenika.github.io/secure-bp-voting/2_generate_transaction.html) 
-3. ON-LINE: [Push the transaction to the network](https://tokenika.github.io/secure-bp-voting/3_push_transaction.html)
+1. ON-LINE: [Fetch information about the network](https://eos.blckchnd.com/vote_offline/1_get_blockchain_data.html)
+2. **OFF-LINE**: [Generate and sign transaction with your private key](https://eos.blckchnd.com/vote_offline/2_generate_transaction.html) 
+3. ON-LINE: [Push the transaction to the network](https://eos.blckchnd.com/vote_offline/3_push_transaction.html)
 
 **NOTE:** Please make sure the URL always starts with `https://tokenika.github.io/secure-bp-voting`.
 
 **NOTE:** Step 2 is to be done **OFF-LINE**, ideally on a computer which has never been connected to the Internet.
 
-## Explainer video
+## Text manual
 
-And [here's an explainer video](https://youtu.be/_sJYuXOUHCc) shot by [noisy](https://github.com/noisy), the lead developer of this tool.
+[On russian](https://golos.io/eos/@on0tole/eos-zapushen-chto-dalshe)
 
 ## About
 
-*Secure EOS Block Producer Voting* is an open-source software created by [Tokenika](https://tokenika.io/), an EOS block producer candidate. The source code is available at [https://github.com/tokenika/secure-bp-voting](https://github.com/tokenika/secure-bp-voting) on [MIT Licence](https://github.com/tokenika/secure-bp-voting/blob/master/LICENSE). A HTML version of this document is also available under this URL: [https://tokenika.github.io/secure-bp-voting](https://tokenika.github.io/secure-bp-voting).
+*EOS BLCKCHND VOTE OFFLINE* is an open-source software based on created by [Tokenika](https://tokenika.io/) service  [Secure EOS Block Producer Voting](https://github.com/tokenika/secure-bp-voting) created by [blockchained](https://eos.blckchnd.com)
+an EOS block producer candidate. The source code is available at [https://github.com/blckchnd/secure-bp-voting/tree/russian](https://github.com/blckchnd/secure-bp-voting/tree/russian) on [MIT Licence](https://github.com/blckchnd/secure-bp-voting/blob/russian/LICENSE). 
+
 
 ## Feedback is welcome
 
