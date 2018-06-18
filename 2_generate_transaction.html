@@ -1,30 +1,23 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <script src="https://github.com/EOSIO/eosjs/releases/download/v14.1.1/eos.js" integrity="sha256-FSTgn2i5iS3geonhD7AZb58QJuQ4YiWXBnM8BbEmejg="></script>
+    <!-- <script src="eos.js" integrity="sha256-FSTgn2i5iS3geonhD7AZb58QJuQ4YiWXBnM8BbEmejg="></script> -->
+    <script src="eos.js" ></script>
 
     <script>
 
         function generate_transaction(){
-            let account_name = document.getElementById('account_name').value;
-            let private_key = document.getElementById('private_key').value;
-            let block_producers = document.getElementById('bp').value;
-            block_producers = block_producers.split(',').map(
-                function(s){return s.trim();}
-            ).sort(
-                function(a, b){return parseInt(Eos.modules.format.encodeName(a, false)) - parseInt(Eos.modules.format.encodeName(b, false));}
-            );
+            let account_name_to_sell = document.getElementById('account_name_to_sell').value;
+            let buyer_account_name = document.getElementById('buyer_account_name').value;
+            let new_account_authority_public_key = document.getElementById('new_account_authority_public_key').value;
+            let tokens_recepient_account_name = document.getElementById('tokens_recepient_account_name').value;
+            let price = document.getElementById('price').value;
+            // let private_key = document.getElementById('private_key').value;
             let expireInSeconds = 60 * document.getElementById('minutes_before_expiration').value;
             let block_num = +document.getElementById('block_num').value;
             let chainId = document.getElementById('chainId').value;
             let ref_block_num = block_num & 0xFFFF;
             let ref_block_prefix = +document.getElementById('ref_block_prefix').value;
-
-            let options = {
-                broadcast: false,
-                sign: true,
-                authorization: account_name
-            };
 
             let headers = {
                 ref_block_num: ref_block_num,
@@ -35,30 +28,43 @@
                 delay_sec: 0
             };
 
+            // tosell_private_key = '5KdGGN4LoTmR8AnRShuz26bg6Qrgw223zpBrS6y7EwDAnrfYezm';
+            // buyer_private_key = '5J3JDFYRKBo59xoC8iMRC6xqSC4u2UpTFJnZzinxLVk7Rt7en2t';
+
             let EOS = Eos({
-                keyProvider: private_key,
-                transactionHeaders: function(_, callback) {
-                    callback(null, headers)
+                httpEndpoint: null,
+                keyProvider: [],
+                transactionHeaders: function (_, callback) {
+                  callback(null, headers)
                 },
                 broadcast: false,
-                sign: true,
-                chainId: chainId,
-                // checkChainId: false - enable after merge of https://github.com/EOSIO/eosjs/pull/179
+                sign: false,
+                chainId: chainId
+                 // checkChainId: false - enable after merge of https://github.com/EOSIO/eosjs/pull/179
             });
 
-
-            EOS.transaction(
-                function(tr){
-                    tr.voteproducer({
-                        'voter': account_name,
-                        'proxy': '',
-                        'producers': block_producers
+            let account_name_to_sell_owner=account_name_to_sell+'@owner';
+            let buyer_account_owner=buyer_account_name+'@active';
+            EOS.transaction(function(tr){
+                tr.transfer({'from':buyer_account_name, 'to':tokens_recepient_account_name,'quantity':price, 'memo':''},{
+                      authorization: buyer_account_name,
+                      broadcast: false,
+                      sign: false
                     });
-                },
-                options
-            )
+                tr.updateauth({account: account_name_to_sell,
+                    permission: 'owner',
+                    parent: '',
+                    auth: new_account_authority_public_key},{
+                      authorization: account_name_to_sell_owner,
+                      broadcast: false,
+                      sign: false});
+            },{
+              authorization: account_name_to_sell_owner,
+              broadcast: false,
+              sign: false})
             .then(function(result){
-                document.getElementById('raw_transaction').value = JSON.stringify(result['transaction'], null, "    ");
+                document.getElementById('raw_transaction_line').value = 'cleos sign \''+JSON.stringify(result['transaction']['transaction'])+'\' >| signed.json';
+                document.getElementById('raw_transaction').value = JSON.stringify(result['transaction']['transaction'], null, "    ");
                 document.getElementById('transaction').style.display = "block";
             });
         }
@@ -77,48 +83,50 @@
 
     <h1>Этап 2: Генерация транзакции в режиме ОФЛАЙН</h1>
 
-    <p>П(right click, <var>Save as…</var>). This can be done in two ways:</p>
-    <ul>
-        <li>MAXIMUM SECURITY: Copy the file to a secure, off-line computer, which has never been connected to the internet - this gives you best protection. In this case, you should use a pen drive or an external hard drive to port the file to the off-line machine.</li>
-        <li>LESS SECURE, STILL BETTER THAN ON-LINE: If an off-line, air-gapped computer is not available, disconnect your machine from the internet (switch off wi-fi, network or whatever you're using). This is less secure, as it won't protect you from malware or key loggers that you may already have, but is still way more secure than doing this on-line.</li>
-    </ul>
-    <p>While being <b>OFF-LINE</b> do the following:</p>
-    <ol>
-        <li>Open the saved <var>2_generate_transaction.html</var> file in your browser. Your private key is at no point exposed to on-line connections, which greatly reduces the risk of getting hacked.</li>
-        <li>Fill in all fields. Triple check everything! For <var>chain_id</var>, <var>block_num</var> and <var>ref_block_prefix</var> use the data fetched in the previous step.</li>
-        <li>Copy or write down the generated transaction, as you'll need it in the subsequent step. Please note that your private key is used to sign transaction, but it's NOT part of the transaction.</li>
-    </ol>
     <hr>
     <form action="javascript:generate_transaction()">
 
-        <label for="account_name">Your Account Name</label>
-        <input type="text" name="account_name" id="account_name" value="" required><br/>
+        <label for="account_name_to_sell">Account Name to sell</label>
+        <input type="text" name="account_name_to_sell" id="account_name_to_sell" value="tosell" required><br/>
 
+        <label for="buyer_account_name">Payer Account Name</label>
+        <input type="text" name="buyer_account_name" id="buyer_account_name" value="buyer" required><br/>
 
-        <label for="private_key">Private Key</label>
-        <input type="text" name="private_key" id="private_key" value="" style="width: 700px;" required><br>
+        <label for="new_account_authority_public_key">New public key for the account</label>
+        <br/>
+        <input type="text" name="new_account_authority_public_key" id="new_account_authority_public_key" value="EOS7AgCwCrjPH1Z9sfapJ1hwsUXvsbNGF1fbQeXaxC3PfML177GdZ" style="width: 500px;" required><br/>
+
+        <label for="tokens_recepient_account_name">Tokens recepient</label>
+        <input type="text" name="tokens_recepient_account_name" id="tokens_recepient_account_name" value="seller" required><br/>
+
+        <label for="price">Price</label>
+        <input type="text" name="price" id="price" value="1.0000 EOS" required><br/>
+
+        <!-- <label for="private_key">Private Key for the owner authority of the account to sell</label>
+        <input type="text" name="private_key" id="private_key" value="5KdGGN4LoTmR8AnRShuz26bg6Qrgw223zpBrS6y7EwDAnrfYezm" style="width: 500px;" required><br> -->
 
         <label for="chainId"><var>chainId</var></label>
-        <input type="text" name="chainId" id="chainId" value="" required style="width: 500px"><br>
+        <input type="text" name="chainId" id="chainId" value="cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f" required style="width: 500px"><br>
 
         <label for="block_num"><var>block_num</var></label>
-        <input type="text" name="block_num" id="block_num" value="" required><br>
+        <input type="text" name="block_num" id="block_num" value="29" required><br>
 
         <label for="ref_block_prefix"><var>ref_block_prefix</var></label>
-        <input type="text" name="ref_block_prefix" id="ref_block_prefix" value="" required><br>
+        <input type="text" name="ref_block_prefix" id="ref_block_prefix" value="2269018614" required><br>
 
         <label for="minutes_before_expiration">Transaction will expire in</label>
-        <input type="number" min="1" max="60" step="1" name="minutes_before_expiration" id="minutes_before_expiration" value="10" required> minutes<br>
-
-        <label for="bp">Block Producers</label>
-        <input type="text" name="bp" id="bp" value="" style="width: 700px;" placeholder="Coma separated list of block producers account names (no more than 30). Example: alpha, beta, gamma" required><br>
+        <input type="number" min="1" max="60" step="1" name="minutes_before_expiration" id="minutes_before_expiration" value="10" required>
+        minutes
+        <br/>
 
         <input type="submit" value="Generate transaction">
     </form>
 
     <div id="transaction" style="display: none">
-        <div>Generated and signed <var>raw transaction</var>:</div>
+        <div>Generated<var>raw transaction</var>:</div>
         <textarea id="raw_transaction" style="width: 1000px; height: 400px; font-size: 0.7em;"></textarea>
+        <div>Sign<var>raw transaction and save result into signed.json</var>:</div>
+        <textarea id="raw_transaction_line" style="width: 1000px; height: 200px; font-size: 0.7em;"></textarea>
 
         <p>Copy or write down the above <var>raw transaction</var> (whitespaces don't matter).</p>
         <p>Next, go to <a href="3_push_transaction.html" target="_blank">Step 3</a>, to push this transaction to the network.</p>

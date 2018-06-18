@@ -2,7 +2,8 @@
 <head>
     <meta charset="utf-8">
 
-    <script src="https://github.com/EOSIO/eosjs/releases/download/v14.1.1/eos.js" integrity="sha256-FSTgn2i5iS3geonhD7AZb58QJuQ4YiWXBnM8BbEmejg="></script>
+    <!-- <script src="https://github.com/EOSIO/eosjs/releases/download/v14.1.1/eos.js" integrity="sha256-FSTgn2i5iS3geonhD7AZb58QJuQ4YiWXBnM8BbEmejg="></script> -->
+    <script src="eos.js"></script>
 
     <script>
         function handle_error(error) {
@@ -14,7 +15,7 @@
 
             api_endpoint = api_endpoint.replace(/\/$/, ""); //remove trailing slash
 
-            eos = Eos({httpEndpoint: api_endpoint});
+            eos = Eos({httpEndpoint: 'http://127.0.0.1:8888'});
 
             eos.getInfo({}).then(function(result){
 
@@ -32,7 +33,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            if (location.protocol == 'https:') { // Enforce https if served from https, to avoid "mixed content" error
+            if (location.protocol == 'http:') { // Enforce https if served from https, to avoid "mixed content" error
                 document.getElementById('api_endpoint').pattern = '^https://.*';
                 document.getElementById('api_endpoint').title = 'Since this website is hosted via HTTPS, endpoint API needs to support HTTPS protocol. You can read more about this here: https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content';
             }
@@ -51,6 +52,7 @@
         <input type="url" name="api_endpoint" id="api_endpoint" value="" list="defaultURLs" style="width: 300px;" required>
 
         <datalist id="defaultURLs">
+            <option value="https://localhost/" label="chain_id:aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906">
             <option value="https://api.tokenika.io/" label="chain_id:aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906">
             <option value="https://api1.eosasia.one/" label="chain_id:aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906">
             <option value="https://api-eos.blckchnd.com/" label="chain_id:aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906">
